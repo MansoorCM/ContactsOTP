@@ -9,5 +9,14 @@
         android:id="@+id/contactFragment"
         android:name="com.example.contactsotp.ContactFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_contact" />
+        tools:layout="@layout/fragment_contact">
+        <action
+            android:id="@+id/action_contactFragment_to_contactInfoFragment"
+            app:destination="@id/contactInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactInfoFragment"
+        android:name="com.example.contactsotp.ContactInfoFragment"
+        android:label="Contact Info"
+        tools:layout="@layout/fragment_contact_info"/>
 </navigation>
