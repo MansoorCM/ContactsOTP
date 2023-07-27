@@ -3,4 +3,6 @@
     <string name="contactName">%1$s %2$s</string>
     <string name="sendMessage">Send Message</string>
     <string name="contactPhoneNumber">%1$s</string>
+    <string name="timeOfCreation">Date: %1$s</string>
+    <string name="OTPString">OTP: %1$d</string>
 </resources>

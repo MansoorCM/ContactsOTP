@@ -3,9 +3,11 @@ package com.example.contactsotp
 import androidx.lifecycle.*
 import com.example.contactsotp.data.Contact
 import com.example.contactsotp.data.ContactsRepository
+import com.example.contactsotp.data.MessageItem
 
 class MainViewModel(private val repository: ContactsRepository) : ViewModel() {
     val contactsList: LiveData<List<Contact>> = repository.contactsList.asLiveData()
+    val messageItemList: LiveData<List<MessageItem>> = repository.messageItemList.asLiveData()
 
     // contact to which message will be send, this data will be shared between
     // multiple fragments. Another way to share would be to pass the contact

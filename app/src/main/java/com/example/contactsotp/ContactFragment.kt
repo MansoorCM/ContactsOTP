@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contactsotp.adapter.ContactsListAdapter
+import com.example.contactsotp.adapter.MessageListAdapter
 import com.example.contactsotp.data.Contact
 import com.example.contactsotp.databinding.FragmentContactBinding
 
@@ -17,6 +18,8 @@ class ContactFragment : Fragment() {
     private lateinit var binding: FragmentContactBinding
     private lateinit var contactsRecyclerView: RecyclerView
     private lateinit var contactsListAdapter: ContactsListAdapter
+    private lateinit var messagesRecyclerView: RecyclerView
+    private lateinit var messageListAdapter: MessageListAdapter
 
     private val viewModel: MainViewModel by activityViewModels {
         MainViewModelFactory(
@@ -37,16 +40,26 @@ class ContactFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         contactsRecyclerView = binding.contactsRecyclerView
+        messagesRecyclerView = binding.messagesRecyclerView
 
         contactsListAdapter = ContactsListAdapter(itemClicked = { contact ->
             onItemClick(contact)
         })
         contactsRecyclerView.adapter = contactsListAdapter
 
+        messageListAdapter = MessageListAdapter()
+        messagesRecyclerView.adapter = messageListAdapter
+
         // observe for changes in the contactsList livedata variable. if there
         // is any change, new list is submitted.
         viewModel.contactsList.observe(viewLifecycleOwner) { contactList ->
             contactsListAdapter.submitList(contactList)
+        }
+
+        // observe for changes in the messageItemList livedata variable. if there
+        // is any change, new list is submitted.
+        viewModel.messageItemList.observe(viewLifecycleOwner) { messageList ->
+            messageListAdapter.submitList(messageList)
         }
     }
 
