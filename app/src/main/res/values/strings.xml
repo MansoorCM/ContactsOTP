@@ -2,4 +2,5 @@
     <string name="app_name">Contacts OTP</string>
     <string name="contactName">%1$s %2$s</string>
     <string name="sendMessage">Send Message</string>
+    <string name="contactPhoneNumber">%1$s</string>
 </resources>

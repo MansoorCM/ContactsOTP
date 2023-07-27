@@ -6,6 +6,18 @@ import com.example.contactsotp.data.ContactsRepository
 
 class MainViewModel(private val repository: ContactsRepository) : ViewModel() {
     val contactsList: LiveData<List<Contact>> = repository.contactsList.asLiveData()
+
+    // contact to which message will be send, this data will be shared between
+    // multiple fragments. Another way to share would be to pass the contact
+    // data while navigating between fragments.
+    private var _currentContact: Contact? = null
+    val currentContact
+        get() = _currentContact
+
+    fun setCurrentContact(contact: Contact) {
+        _currentContact = contact
+    }
+
 }
 
 // view model factory used to pass parameters while creating the view model.

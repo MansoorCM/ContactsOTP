@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contactsotp.adapter.ContactsListAdapter
 import com.example.contactsotp.data.Contact
@@ -51,6 +52,9 @@ class ContactFragment : Fragment() {
 
     private fun onItemClick(contact: Contact?) {
         contact?.let {
+            viewModel.setCurrentContact(it)
+            val action = ContactFragmentDirections.actionContactFragmentToContactInfoFragment()
+            findNavController().navigate(action)
         }
     }
 }

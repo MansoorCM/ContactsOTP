@@ -27,4 +27,21 @@ class ContactInfoFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.currentContact?.let {
+            // currentContact variable holds the data of the Contact previously selected.
+            binding.etContactName.setText(
+                getString(
+                    R.string.contactName,
+                    it.firstName,
+                    it.lastName
+                )
+            )
+            binding.etPhoneNum.setText(getString(R.string.contactPhoneNumber, it.phoneNum))
+        }
+
+    }
+
 }
