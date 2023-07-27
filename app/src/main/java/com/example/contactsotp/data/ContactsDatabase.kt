@@ -10,7 +10,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [Contact::class], version = 1, exportSchema = false)
+@Database(entities = [Contact::class, MessageItem::class], version = 1, exportSchema = false)
 public abstract class ContactsDatabase : RoomDatabase() {
 
     abstract fun contactDao(): ContactDao

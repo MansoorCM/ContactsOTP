@@ -8,4 +8,9 @@ class ContactsRepository(private val contactDao: ContactDao) {
     // Observed Flow will notify the observer when the data has changed.
     val contactsList: Flow<List<Contact>> = contactDao.getContacts()
 
+    val messageItemList: Flow<List<MessageItem>> = contactDao.getMessages()
+
+    suspend fun insertMessage(messageItem: MessageItem) {
+        contactDao.insertMessage(messageItem)
+    }
 }

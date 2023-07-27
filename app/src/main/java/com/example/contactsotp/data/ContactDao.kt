@@ -13,4 +13,10 @@ interface ContactDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(contact: Contact)
+
+    @Query("SELECT * FROM message ORDER BY timeOfCreation DESC")
+    fun getMessages(): Flow<List<MessageItem>>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertMessage(messageItem: MessageItem)
 }
