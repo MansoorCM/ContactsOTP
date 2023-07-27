@@ -18,7 +18,10 @@ class ContactFragment : Fragment() {
     private lateinit var contactsListAdapter: ContactsListAdapter
 
     private val viewModel: MainViewModel by activityViewModels {
-        MainViewModelFactory()
+        MainViewModelFactory(
+            (requireActivity().application
+                    as ContactsApplication).repository
+        )
     }
 
     override fun onCreateView(
@@ -38,6 +41,12 @@ class ContactFragment : Fragment() {
             onItemClick(contact)
         })
         contactsRecyclerView.adapter = contactsListAdapter
+
+        // observe for changes in the contactsList livedata variable. if there
+        // is any change, new list is submitted.
+        viewModel.contactsList.observe(viewLifecycleOwner) { contactList ->
+            contactsListAdapter.submitList(contactList)
+        }
     }
 
     private fun onItemClick(contact: Contact?) {
