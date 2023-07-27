@@ -22,6 +22,7 @@
             android:scrollbars="vertical"
             android:visibility="visible"
             app:layoutManager="LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/tab_layout"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/contact_list_item" />
 
@@ -35,8 +36,43 @@
             android:scrollbars="vertical"
             android:visibility="gone"
             app:layoutManager="LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/tab_layout"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/message_list_item" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_messages_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_large"
+            android:text="@string/message_list_placeholder_text"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/tab_layout"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey_300"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:tabMode="fixed"
+            app:tabTextAppearance="@style/TabLayoutTextStyle">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_contacts"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/ic_action_contacts"
+                android:text="@string/contacts" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_messages"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/ic_action_sms"
+                android:text="@string/messages" />
+        </com.google.android.material.tabs.TabLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

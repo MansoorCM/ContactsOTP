@@ -12,6 +12,7 @@ import com.example.contactsotp.adapter.ContactsListAdapter
 import com.example.contactsotp.adapter.MessageListAdapter
 import com.example.contactsotp.data.Contact
 import com.example.contactsotp.databinding.FragmentContactBinding
+import com.google.android.material.tabs.TabLayout
 
 class ContactFragment : Fragment() {
 
@@ -59,7 +60,26 @@ class ContactFragment : Fragment() {
         // observe for changes in the messageItemList livedata variable. if there
         // is any change, new list is submitted.
         viewModel.messageItemList.observe(viewLifecycleOwner) { messageList ->
+            setUpMessageListVisibility()
             messageListAdapter.submitList(messageList)
+        }
+
+        // handles the tab layout clicks to navigate between contacts list and messages list.
+        onTabChangedListener()
+    }
+
+    // if contacts list is not visible i.e. message list should be visible.
+    // then if the message list is empty, show the placeholder text. else show the message list.
+    // feels like this function could be improved.
+    private fun setUpMessageListVisibility() {
+        if (binding.contactsRecyclerView.visibility == View.GONE) {
+            if (messageListAdapter.currentList.isEmpty()) {
+                binding.tvMessagesPlaceholder.visibility = View.VISIBLE
+                binding.messagesRecyclerView.visibility = View.GONE
+            } else {
+                binding.tvMessagesPlaceholder.visibility = View.GONE
+                binding.messagesRecyclerView.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -68,6 +88,48 @@ class ContactFragment : Fragment() {
             viewModel.setCurrentContact(it)
             val action = ContactFragmentDirections.actionContactFragmentToContactInfoFragment()
             findNavController().navigate(action)
+        }
+    }
+
+    private fun onTabChangedListener() {
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (tab?.position == 0) {
+                    // when the contacts tab is clicked, contacts list is shown and
+                    // the messages list is hidden
+                    showContactsList()
+                } else {
+                    // when the messages tab is clicked, messages list is shown and
+                    // the contacts list is hidden
+                    showMessagesList()
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+        })
+    }
+
+    private fun showContactsList() {
+        binding.contactsRecyclerView.visibility = View.VISIBLE
+        binding.messagesRecyclerView.visibility = View.GONE
+        binding.tvMessagesPlaceholder.visibility = View.GONE
+    }
+
+    private fun showMessagesList() {
+        binding.contactsRecyclerView.visibility = View.GONE
+
+        // show message list if it is not empty, else show placeholder text.
+        if (messageListAdapter.currentList.isEmpty()) {
+            binding.messagesRecyclerView.visibility = View.GONE
+            binding.tvMessagesPlaceholder.visibility = View.VISIBLE
+        } else {
+            binding.messagesRecyclerView.visibility = View.VISIBLE
+            binding.tvMessagesPlaceholder.visibility = View.GONE
         }
     }
 }
