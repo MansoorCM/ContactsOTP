@@ -9,4 +9,14 @@
     <string name="messages">Messages</string>
     <string name="message_list_placeholder_text">Messages history is currently empty. Send new message to see the data</string>
     <string name="sendOTP">Send OTP</string>
+    <string name="OTPMessage">Hi, Your OTP is : %1$d</string>
+
+<!--    TODO : create an account on Twilio (refer readme) and add AccountSID, AuthToken and
+twilioPhoneNum below(this is the from number of SMS). placeholder data below is fake and won't work.
+For trial version of Twilio, the contacts phone Number should be verified on twilio website.
+phone Number of contacts in assets/defaultContacts.json is fake and should be replaced.
+-->
+    <string name="AccountSID">ACc117235a1d242d13940abec0</string>
+    <string name="AuthToken">bddf3e00115e4ba588f6d1865</string>
+    <string name="twilioPhoneNum">+253922429</string>
 </resources>

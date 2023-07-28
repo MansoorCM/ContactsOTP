@@ -1,9 +1,16 @@
 package com.example.contactsotp
 
+import android.util.Base64
 import androidx.lifecycle.*
 import com.example.contactsotp.data.Contact
 import com.example.contactsotp.data.ContactsRepository
 import com.example.contactsotp.data.MessageItem
+import com.example.contactsotp.network.TwilioApi
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import timber.log.Timber
 
 class MainViewModel(private val repository: ContactsRepository) : ViewModel() {
     val contactsList: LiveData<List<Contact>> = repository.contactsList.asLiveData()
@@ -20,6 +27,53 @@ class MainViewModel(private val repository: ContactsRepository) : ViewModel() {
         _currentContact = contact
     }
 
+    fun sendMessage(accountSID: String, authToken: String, from: String, otp: Int, body: String) {
+
+        _currentContact?.let {
+            val base64EncodedCredentials = getEncodedCredentials(accountSID, authToken)
+            val data = getSMSData(from, it.phoneNum, body)
+
+            TwilioApi.retrofitService.sendMessage(accountSID, base64EncodedCredentials, data)
+                .enqueue(object : Callback<ResponseBody?> {
+                    override fun onResponse(
+                        call: Call<ResponseBody?>,
+                        response: Response<ResponseBody?>
+                    ) {
+                        successfulResponse(response)
+                    }
+
+                    override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                        failureResponse()
+                    }
+                })
+        }
+    }
+
+    private fun getEncodedCredentials(accountSID: String, authToken: String) =
+        "Basic " + Base64.encodeToString(
+            ("$accountSID:$authToken").toByteArray(), Base64.NO_WRAP
+        )
+
+    private fun getSMSData(from: String, phoneNum: String, body: String): HashMap<String, String> {
+        // a hashmap to hold from, to and body data of the message
+        val data: HashMap<String, String> = HashMap()
+        data["From"] = from
+        data["To"] = phoneNum
+        data["Body"] = body
+        return data
+    }
+
+    private fun successfulResponse(response: Response<ResponseBody?>) {
+        if (response.isSuccessful) {
+            Timber.i("SMS Successfully Send.")
+        } else {
+            Timber.i("SMS Send failed. Make sure phone num is correct and verified.")
+        }
+    }
+
+    private fun failureResponse() {
+        Timber.i("SMS Send failed. Make sure there is proper internet connection.")
+    }
 }
 
 // view model factory used to pass parameters while creating the view model.
