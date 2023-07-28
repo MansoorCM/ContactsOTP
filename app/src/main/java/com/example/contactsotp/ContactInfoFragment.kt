@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.contactsotp.databinding.FragmentContactInfoBinding
 
 class ContactInfoFragment : Fragment() {
@@ -40,6 +41,12 @@ class ContactInfoFragment : Fragment() {
                 )
             )
             binding.etPhoneNum.setText(getString(R.string.contactPhoneNumber, it.phoneNum))
+        }
+
+        val action = ContactInfoFragmentDirections.actionContactInfoFragmentToMessageFragment()
+        binding.buttonSendMessage.setOnClickListener {
+            // navigate to Compose Message Screen.
+            findNavController().navigate(action)
         }
 
     }

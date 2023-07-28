@@ -18,5 +18,14 @@
         android:id="@+id/contactInfoFragment"
         android:name="com.example.contactsotp.ContactInfoFragment"
         android:label="Contact Info"
-        tools:layout="@layout/fragment_contact_info"/>
+        tools:layout="@layout/fragment_contact_info">
+        <action
+            android:id="@+id/action_contactInfoFragment_to_messageFragment"
+            app:destination="@id/messageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/messageFragment"
+        android:name="com.example.contactsotp.MessageFragment"
+        android:label="Compose Message"
+        tools:layout="@layout/fragment_message" />
 </navigation>
