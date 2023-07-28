@@ -6,6 +6,7 @@ import com.example.contactsotp.data.Contact
 import com.example.contactsotp.data.ContactsRepository
 import com.example.contactsotp.data.MessageItem
 import com.example.contactsotp.network.TwilioApi
+import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -50,7 +51,7 @@ class MainViewModel(private val repository: ContactsRepository) : ViewModel() {
                         call: Call<ResponseBody?>,
                         response: Response<ResponseBody?>
                     ) {
-                        successfulResponse(response)
+                        successfulResponse(otp, response)
                     }
 
                     override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
@@ -74,12 +75,22 @@ class MainViewModel(private val repository: ContactsRepository) : ViewModel() {
         return data
     }
 
-    private fun successfulResponse(response: Response<ResponseBody?>) {
+    private fun successfulResponse(otp: Int, response: Response<ResponseBody?>) {
         if (response.isSuccessful) {
             Timber.d("onResponse->success")
             _snackBarText.value = "SMS Successfully Send."
+            insertMessage(otp)
         } else {
             _snackBarText.value = "SMS Send failed. Make sure phone num is correct and verified."
+        }
+    }
+
+    private fun insertMessage(otp: Int) {
+        _currentContact?.let {
+            val messageItem = MessageItem(contactName = "${it.firstName} ${it.lastName}", otp = otp)
+            viewModelScope.launch {
+                repository.insertMessage(messageItem)
+            }
         }
     }
 
