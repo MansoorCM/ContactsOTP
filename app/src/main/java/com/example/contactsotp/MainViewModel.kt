@@ -27,6 +27,17 @@ class MainViewModel(private val repository: ContactsRepository) : ViewModel() {
         _currentContact = contact
     }
 
+    // whenever this changes a snack bar will be shown in the fragment.
+    // backing property used to avoid unwanted manipulation of data
+    // from outside the class.
+    private var _snackBarText = MutableLiveData<String>("")
+    val snackBarText: LiveData<String>
+        get() = _snackBarText
+
+    fun setSnackBarTextToEmpty() {
+        _snackBarText.value = ""
+    }
+
     fun sendMessage(accountSID: String, authToken: String, from: String, otp: Int, body: String) {
 
         _currentContact?.let {
@@ -65,14 +76,15 @@ class MainViewModel(private val repository: ContactsRepository) : ViewModel() {
 
     private fun successfulResponse(response: Response<ResponseBody?>) {
         if (response.isSuccessful) {
-            Timber.i("SMS Successfully Send.")
+            Timber.d("onResponse->success")
+            _snackBarText.value = "SMS Successfully Send."
         } else {
-            Timber.i("SMS Send failed. Make sure phone num is correct and verified.")
+            _snackBarText.value = "SMS Send failed. Make sure phone num is correct and verified."
         }
     }
 
     private fun failureResponse() {
-        Timber.i("SMS Send failed. Make sure there is proper internet connection.")
+        _snackBarText.value = "SMS Send failed. Make sure there is proper internet connection."
     }
 }
 
