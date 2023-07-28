@@ -8,4 +8,5 @@
     <string name="contacts">Contacts</string>
     <string name="messages">Messages</string>
     <string name="message_list_placeholder_text">Messages history is currently empty. Send new message to see the data</string>
+    <string name="sendOTP">Send OTP</string>
 </resources>
