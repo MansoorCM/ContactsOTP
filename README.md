@@ -6,7 +6,7 @@ Contacts App allows to send OTP SMS to any contact using the Twilio REST API.
 
 The app consists of two tabs in the Home screen. Contacts tab showing a list of contacts and Messages tab showing the list of details of messages sent.
 
-<img src="home.png" width=150> 
+<img src="home.png" width=350> 
 Fig - contacts list.
 
 <br>
@@ -14,7 +14,7 @@ Fig - contacts list.
 
 On selecting a contact, the contact info page is shown. This page contains the contact's full name, phone number and “send message” button.
 
-<img src="detail.png" width=150> 
+<img src="detail.png" width=350> 
 Fig - contacts info page
 
 <br>
@@ -23,13 +23,13 @@ Fig - contacts info page
 On clicking “send message”, the “Compose Message” screen is shown. This page contains the sms otp message containing a randomly generated 6 digit number 
 about to be sent and a “send otp” button. On clicking the “send otp” button an sms is sent to the contact.
 
-<img src="compose.png" width=150> 
+<img src="compose.png" width=350> 
 Compose Message screen
 
 <br><br>
 
     
-<img src="messages.png" width=150> 
+<img src="messages.png" width=350> 
 Message tab
 
 
